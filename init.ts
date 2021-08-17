@@ -6,6 +6,7 @@ import * as ParseDashboard from "parse-dashboard";
 import { genSaltSync, hashSync } from "bcrypt";
 import * as fs from "fs";
 import * as ServerManager from "server-manager-api";
+import * as path from "path";
 
 export class InitProcess {
 
@@ -16,7 +17,7 @@ export class InitProcess {
         var apps: object[] = [];
         servers.forEach((server : Server) => {
             apps.push({
-                serverURL: "http://" + ServerManager.instance.CONFIG.PARSE_LOCAL_SERVERHOST + ":" + server.HTTP_PORT + "/" + server.API_PATH,
+                serverURL: "http://" + ServerManager.instance.CONFIG.PARSE_PUBLIC_SERVERHOST + ":" + server.HTTP_PORT + "/" + server.API_PATH,
                 appId: server.AppId,
                 masterKey: server.MasterKey,
                 appName: server.Name
@@ -27,7 +28,7 @@ export class InitProcess {
             appName: "Server Manager",
             appId: "com.mabenan.servermanager",
             masterKey: instance.CONFIG.PARSE_MASTERKEY,
-            serverURL: "http://" + ServerManager.instance.CONFIG.PARSE_LOCAL_SERVERHOST + ":" + ServerManager.instance.CONFIG.HTTP_PORT + "/api",
+            serverURL: "http://" + ServerManager.instance.CONFIG.PARSE_PUBLIC_SERVERHOST + ":" + ServerManager.instance.CONFIG.HTTP_PORT + "/api",
         })
 
         instance.PARSE_DASHBOARD = new ParseDashboard({
@@ -35,7 +36,7 @@ export class InitProcess {
             users: [
                 {
                     user: "admin",
-                    pass: fs.readFileSync(__dirname + "/ADMIN.pass", { encoding: 'utf8' })
+                    pass: fs.readFileSync(path.resolve(path.resolve(process.cwd(),process.env.CONFIG_LOCATION), "./ADMIN.pass"), { encoding: 'utf8' })
                 }
             ],
             useEncryptedPasswords: true
@@ -66,7 +67,7 @@ export class InitProcess {
             role = await role.save(null, { useMasterKey: true });
             var pass = randomBytes(20).toString('hex');
             var hashedPW = hashSync(pass, genSaltSync(10, "a"));
-            fs.writeFileSync(__dirname + "/ADMIN.pass", hashedPW);
+            fs.writeFileSync(path.resolve(path.resolve(process.cwd(),process.env.CONFIG_LOCATION), "./ADMIN.pass"), hashedPW);
             var user = new Parse.User();
             user.set("username", "admin");
             user.set("password", pass);

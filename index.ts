@@ -10,13 +10,15 @@ instance.APP = express();
 
 
 function startServer() {
+  process.env.CONFIG_LOCATION = process.env.CONFIG_LOCATION || "./";
   instance.CONFIG = new ServerConfig();
+  var configLocation = path.resolve(path.resolve(process.cwd(),process.env.CONFIG_LOCATION), "./config.json");
   try {
-    if (fs.existsSync(path.resolve(process.cwd(),"/config.json"))) {
-      instance.CONFIG = require(path.resolve(process.cwd(),"/config.json"));
+    if (fs.existsSync(configLocation)) {
+      instance.CONFIG = require(configLocation);
     }
   } catch (error) {
-    console.log("Config not found in " + path.resolve(process.cwd(),"/config.json"));
+    console.log("Config not found in " + configLocation);
   }
   for (const prop in instance.CONFIG) {
     if (Object.prototype.hasOwnProperty.call(process.env, prop)) {

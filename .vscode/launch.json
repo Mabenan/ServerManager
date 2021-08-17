@@ -14,6 +14,14 @@
         "port": 5858,
         "internalConsoleOptions": "neverOpen"
       },
+      {
+        "name": "Node",
+        "type": "node",
+        "request": "launch",
+        "cwd": "C:\\servers\\emT1PFvPe4\\repo",
+        "program": "test.js",
+        "internalConsoleOptions": "neverOpen"
+      },
     ]
   }
   

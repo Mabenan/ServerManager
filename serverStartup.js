@@ -1,16 +1,14 @@
-import * as ParseServer from "parse-server";
-import * as express from "express";
-import * as fs from "fs";
-import * as path from "path";
-import * as https from "https";
-import * as http from "http";
-import { instance, SubServerConfig, InitProcess } from "server-manager-api";
-
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const ParseServer = require("parse-server");
+const express = require("express");
+const path = require("path");
+const https = require("https");
+const http = require("http");
+const server_manager_api_1 = require("server-manager-api");
 var app = express();
-
 function startServer() {
-    var config: SubServerConfig = JSON.parse(process.argv[2]);
+    var config = JSON.parse(process.argv[2]);
     var api = ParseServer.ParseServer({
         appName: config.PARSE_APPNAME,
         databaseURI: config.PARSE_DATABASEURI,
@@ -27,13 +25,13 @@ function startServer() {
             var privateKey = process.argv[3];
             var certificate = process.argv[4];
             var passphrase = process.argv[5];
-
             var credentials = { key: privateKey, cert: certificate, passphrase: passphrase };
             var httpsServer = https.createServer(credentials, app);
             httpsServer.listen(config.HTTPS_PORT);
             ParseServer.ParseServer.createLiveQueryServer(httpsServer);
             console.log("https started");
-        } catch (error) { }
+        }
+        catch (error) { }
     }
     var httpServer = http.createServer(function (req, res) {
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -43,8 +41,9 @@ function startServer() {
     httpServer.listen(config.HTTP_PORT);
     ParseServer.ParseServer.createLiveQueryServer(httpServer);
     Parse.Config;
-    instance.APP = app;
+    server_manager_api_1.instance.APP = app;
     var initProcess = require(path.resolve(process.cwd(), config.INIT_MODULE));
-    new initProcess().init();
+    initProcess.init();
 }
 startServer();
+//# sourceMappingURL=serverStartup.js.map

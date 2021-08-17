@@ -54,11 +54,12 @@ async function startServer(process: ServerManager.Process, request: Parse.Cloud.
       process.newStep();
       console.info(child_process.execSync("npm install", { cwd: serverPath }));
       console.info(child_process.execSync("npm run build", { cwd: serverPath }));
+      fs.copyFileSync(path.resolve(__dirname, "../serverStartup.js"),path.resolve(serverPath, "serverStartup.js") );
       process.newStep();
       console.info(serverPath);
       pm2.start({
         cwd: serverPath,
-        script: path.resolve(__dirname, "../serverStartup.js"),
+        script: path.resolve(serverPath, "serverStartup.js"),
         name: server.id,
         args: [getJsonConfig({
           PARSE_APPNAME: server.Name,
