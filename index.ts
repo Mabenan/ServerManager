@@ -6,10 +6,10 @@ import * as http from "http";
 import { instance, ServerConfig } from "server-manager-api";
 import { InitProcess } from "./init";
 import * as path from "path";
-instance.APP = express();
 
 
-function startServer() {
+export function startServer() {
+  instance.APP = express();
   process.env.CONFIG_LOCATION = process.env.CONFIG_LOCATION || "./";
   instance.CONFIG = new ServerConfig();
   var configLocation = path.resolve(path.resolve(process.cwd(),process.env.CONFIG_LOCATION), "./config.json");
@@ -61,4 +61,3 @@ function startServer() {
   ParseServer.ParseServer.createLiveQueryServer(httpServer);
   new InitProcess().init();
 }
-startServer();

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "tsc --build",
+    "prepare": "npm run build",
     "start": "nodemon"
   },
   "repository": {

@@ -10,6 +10,7 @@
         "outDir": "./build/",
         "target": "ES6",
         "skipLibCheck": true,
+        "declaration": true
     },
     "ts-node": {
       "files": true
