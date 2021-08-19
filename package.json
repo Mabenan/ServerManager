@@ -2,12 +2,16 @@
   "name": "servermanager",
   "version": "1.0.0",
   "description": "A Manager to control Node Servers",
-  "main": "./build/index.js",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "/build"
+  ],
   "bin": {
     "server-manager": "./bin/server-manager"
   },
   "scripts": {
-    "build": "tsc --build",
+    "build": "tsc",
     "prepare": "npm run build",
     "start": "nodemon"
   },
