@@ -59,5 +59,6 @@ export function startServer() {
   });
   httpServer.listen(instance.CONFIG.HTTP_PORT);
   ParseServer.ParseServer.createLiveQueryServer(httpServer);
-  new InitProcess().init();
 }
+
+export { InitProcess } from "./init";
