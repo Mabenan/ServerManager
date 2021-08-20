@@ -35,7 +35,10 @@ export function startServer() {
 
     allowHeaders: ["X-Parse-Installation-Id", "X-Parse-Application-Id"],
     cloud: __dirname + "/cloud/main",
-    allowClientClassCreation: false
+    allowClientClassCreation: false,
+    liveQuery: {
+      classNames: ['Server', 'Project', 'Process']
+    }
   });
   instance.APP.use("/api", instance.PARSE_INSTANCE);
   if (instance.CONFIG.HTTPS) {
