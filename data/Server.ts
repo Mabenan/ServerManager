@@ -96,7 +96,13 @@ export class Server extends Parse.Object {
     public get INIT_MODULE(): string{
         return this.get<string>("INIT_MODULE");
     }
+    public get Branch(): string{
+        return this.get<string>("Branch");
+    }
 
+    public set Branch(value: string){
+        this.set("Branch", value);
+    }
     public set INIT_MODULE(value: string)
     {
         this.set("INIT_MODULE", value);
