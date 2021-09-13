@@ -21,6 +21,9 @@ function startServer() {
         cloud: config.CLOUD_ENTRY,
         allowClientClassCreation: false
     });
+    instance.APP = app;
+    var initProcess = require(path.resolve(process.cwd(), config.INIT_MODULE));
+    new initProcess().init();
     app.use("/" + config.PATH, api);
     if (config.HTTPS) {
         try {
@@ -43,8 +46,5 @@ function startServer() {
     httpServer.listen(config.HTTP_PORT);
     ParseServer.ParseServer.createLiveQueryServer(httpServer);
     Parse.Config;
-    instance.APP = app;
-    var initProcess = require(path.resolve(process.cwd(), config.INIT_MODULE));
-    new initProcess().init();
 }
 startServer();
